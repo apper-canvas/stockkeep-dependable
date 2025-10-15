@@ -141,8 +141,8 @@ const ProductModal = ({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-lg shadow-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between p-6 border-b">
-          <h2 className="text-lg font-semibold">
-            {product ? "Edit Product" : "Add New Product"}
+<h2 className="text-lg font-semibold">
+            {product ? product.Name || "Edit Product" : "Add New Product"}
           </h2>
           <Button variant="ghost" size="sm" onClick={onClose}>
             <ApperIcon name="X" className="h-5 w-5" />
