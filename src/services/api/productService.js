@@ -107,7 +107,7 @@ export const productService = {
     return products.filter(product => product.supplier === parseInt(supplierId));
   },
 
-  async updateStock(id, quantity, type = "adjustment", notes = "") {
+async updateStock(id, quantity, type = "adjustment", notes = "") {
     await delay(300);
     const products = getStoredProducts();
     const productIndex = products.findIndex(product => product.Id === parseInt(id));
@@ -122,6 +122,79 @@ export const productService = {
     products[productIndex] = {
       ...product,
       quantity: Math.max(0, newQuantity),
+      reservedQuantity: product.reservedQuantity || 0,
+      updatedAt: new Date().toISOString()
+    };
+
+    saveProducts(products);
+    return products[productIndex];
+  },
+
+  async reserveStock(id, quantity) {
+    await delay(200);
+    const products = getStoredProducts();
+    const productIndex = products.findIndex(product => product.Id === parseInt(id));
+    
+    if (productIndex === -1) {
+      throw new Error("Product not found");
+    }
+
+    const product = products[productIndex];
+    const currentReserved = product.reservedQuantity || 0;
+    const availableQuantity = product.quantity - currentReserved;
+
+    if (quantity > availableQuantity) {
+      throw new Error(`Insufficient stock. Available: ${availableQuantity}, Requested: ${quantity}`);
+    }
+
+    products[productIndex] = {
+      ...product,
+      reservedQuantity: currentReserved + quantity,
+      updatedAt: new Date().toISOString()
+    };
+
+    saveProducts(products);
+    return products[productIndex];
+  },
+
+  async releaseStock(id, quantity) {
+    await delay(200);
+    const products = getStoredProducts();
+    const productIndex = products.findIndex(product => product.Id === parseInt(id));
+    
+    if (productIndex === -1) {
+      throw new Error("Product not found");
+    }
+
+    const product = products[productIndex];
+    const currentReserved = product.reservedQuantity || 0;
+
+    products[productIndex] = {
+      ...product,
+      reservedQuantity: Math.max(0, currentReserved - quantity),
+      updatedAt: new Date().toISOString()
+    };
+
+    saveProducts(products);
+    return products[productIndex];
+  },
+
+  async fulfillOrder(id, quantity) {
+    await delay(300);
+    const products = getStoredProducts();
+    const productIndex = products.findIndex(product => product.Id === parseInt(id));
+    
+    if (productIndex === -1) {
+      throw new Error("Product not found");
+    }
+
+    const product = products[productIndex];
+    const currentReserved = product.reservedQuantity || 0;
+
+    products[productIndex] = {
+      ...product,
+      quantity: Math.max(0, product.quantity - quantity),
+      reservedQuantity: Math.max(0, currentReserved - quantity),
       updatedAt: new Date().toISOString()
     };
 

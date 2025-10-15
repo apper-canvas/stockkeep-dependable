@@ -1,0 +1,63 @@
+[
+  {
+    "Id": 1,
+    "orderNumber": "SO-240115-001",
+    "customerName": "Enterprise Corp",
+    "customerEmail": "purchasing@enterprise.com",
+    "customerPhone": "+1-555-0404",
+    "shippingAddress": "321 Business Park, Austin, TX 78701",
+    "billingAddress": "321 Business Park, Austin, TX 78701",
+    "lineItems": [
+      {
+        "productId": 1,
+        "quantity": 3,
+        "unitPrice": 2499.99,
+        "total": 7499.97
+      },
+      {
+        "productId": 7,
+        "quantity": 5,
+        "unitPrice": 799.99,
+        "total": 3999.95
+      }
+    ],
+    "subtotal": 11499.92,
+    "tax": 1034.99,
+    "total": 12534.91,
+    "status": "Processing",
+    "notes": "Urgent delivery required",
+    "createdAt": "2024-01-15T08:30:00.000Z",
+    "updatedAt": "2024-01-16T10:15:00.000Z"
+  },
+  {
+    "Id": 2,
+    "orderNumber": "SO-240118-002",
+    "customerName": "Retail Partners Inc",
+    "customerEmail": "orders@retailpartners.com",
+    "customerPhone": "+1-555-0505",
+    "shippingAddress": "654 Commerce St, Chicago, IL 60601",
+    "billingAddress": "654 Commerce St, Chicago, IL 60601",
+    "lineItems": [
+      {
+        "productId": 9,
+        "quantity": 4,
+        "unitPrice": 999.99,
+        "total": 3999.96
+      },
+      {
+        "productId": 10,
+        "quantity": 6,
+        "unitPrice": 349.99,
+        "total": 2099.94
+      }
+    ],
+    "subtotal": 6099.90,
+    "tax": 548.99,
+    "total": 6648.89,
+    "status": "Fulfilled",
+    "fulfilledAt": "2024-01-20T16:45:00.000Z",
+    "notes": "Standard delivery",
+    "createdAt": "2024-01-18T11:20:00.000Z",
+    "updatedAt": "2024-01-20T16:45:00.000Z"
+  }
+]

@@ -8,13 +8,13 @@ import SearchBar from "@/components/molecules/SearchBar";
 import Select from "@/components/atoms/Select";
 
 const ProductTable = ({ 
-  products, 
+  products = [], 
   categories, 
   suppliers, 
   onEdit, 
   onDelete, 
   onAdd,
-  loading = false 
+  loading = false
 }) => {
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
@@ -134,7 +134,7 @@ const ProductTable = ({
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gray-50 border-b">
-              <tr>
+<tr>
                 <th 
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
                   onClick={() => handleSort("sku")}
@@ -175,7 +175,7 @@ const ProductTable = ({
                   </div>
                 </th>
                 <th 
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
                   onClick={() => handleSort("price")}
                 >
                   <div className="flex items-center gap-1">
@@ -185,6 +185,12 @@ const ProductTable = ({
                       className="h-3 w-3" 
                     />
                   </div>
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Reserved
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Available
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Status
@@ -225,8 +231,18 @@ const ProductTable = ({
                     <div className="text-xs text-gray-500">Min: {product.minStockLevel}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">
+<div className="text-sm font-medium text-gray-900">
                       {formatCurrency(product.price)}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm text-gray-900">
+                      {product.reservedQuantity || 0}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm font-medium text-gray-900">
+                      {(product.quantity || 0) - (product.reservedQuantity || 0)}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -235,7 +251,7 @@ const ProductTable = ({
                       minStockLevel={product.minStockLevel} 
                     />
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <div className="flex items-center gap-2">
                       <Button
                         variant="ghost"

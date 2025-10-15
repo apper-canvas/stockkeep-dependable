@@ -132,13 +132,16 @@ const Products = () => {
     <div className="max-w-7xl mx-auto p-6 space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Products</h1>
-          <p className="text-gray-600 mt-1">Manage your product inventory and stock levels</p>
+<h1 className="text-3xl font-bold text-gray-900">Products & Inventory</h1>
+          <p className="text-gray-600 mt-1">Manage your product inventory, stock levels, and reservations</p>
         </div>
       </div>
 
-      <ProductTable
-        products={products}
+<ProductTable
+        products={products.map(p => ({
+          ...p,
+          reservedQuantity: p.reservedQuantity || 0
+        }))}
         categories={categories}
         suppliers={suppliers}
         onAdd={handleAddProduct}

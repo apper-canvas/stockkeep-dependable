@@ -11,7 +11,8 @@ const Header = () => {
     { name: "Products", to: "products", icon: "Package" },
     { name: "Categories", to: "categories", icon: "Tag" },
 { name: "Suppliers", to: "suppliers", icon: "Building2" },
-    { name: "Purchase Orders", to: "purchase-orders", icon: "ShoppingCart" }
+{ name: "Purchase Orders", to: "purchase-orders", icon: "ShoppingCart" },
+    { name: "Sales Orders", to: "sales-orders", icon: "ShoppingBag" }
   ];
 
   return (
