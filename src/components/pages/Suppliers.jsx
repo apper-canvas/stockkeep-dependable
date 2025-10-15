@@ -24,6 +24,10 @@ const Suppliers = () => {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [supplierToDelete, setSupplierToDelete] = useState(null);
 
+  // Comparison states
+  const [showComparison, setShowComparison] = useState(true);
+  const [sortField, setSortField] = useState('performanceRating');
+  const [sortDirection, setSortDirection] = useState('desc');
   const loadData = async () => {
     try {
       setLoading(true);
@@ -149,6 +153,50 @@ const Suppliers = () => {
     );
   }
 
+const handleSort = (field) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortDirection('desc');
+    }
+  };
+
+  const sortedSuppliers = [...suppliers].sort((a, b) => {
+    let aVal = a[sortField] || 0;
+    let bVal = b[sortField] || 0;
+    
+    if (sortField === 'name') {
+      aVal = a.name.toLowerCase();
+      bVal = b.name.toLowerCase();
+      return sortDirection === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+    }
+    
+    return sortDirection === 'asc' ? aVal - bVal : bVal - aVal;
+  });
+
+  const getPerformanceColor = (rating) => {
+    if (rating >= 4.5) return 'text-green-600';
+    if (rating >= 3.5) return 'text-blue-600';
+    if (rating >= 2.5) return 'text-yellow-600';
+    return 'text-red-600';
+  };
+
+  const getPerformanceBadge = (rating) => {
+    if (rating >= 4.5) return 'Excellent';
+    if (rating >= 3.5) return 'Good';
+    if (rating >= 2.5) return 'Fair';
+    return 'Poor';
+  };
+
+  const avgLeadTime = suppliers.length > 0 
+    ? Math.round(suppliers.reduce((sum, s) => sum + (s.leadTimeDays || 0), 0) / suppliers.length)
+    : 0;
+
+  const topPerformers = suppliers.filter(s => s.performanceRating >= 4.5).length;
+
+  const totalMOQ = suppliers.reduce((sum, s) => sum + (s.minimumOrderQuantity || 0), 0);
+
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -156,10 +204,19 @@ const Suppliers = () => {
           <h1 className="text-3xl font-bold text-gray-900">Suppliers</h1>
           <p className="text-gray-600 mt-1">Manage your supplier relationships and contacts</p>
         </div>
-        <Button onClick={handleAddSupplier} variant="primary">
-          <ApperIcon name="Plus" className="h-4 w-4 mr-2" />
-          Add Supplier
-        </Button>
+        <div className="flex gap-2">
+          <Button 
+            onClick={() => setShowComparison(!showComparison)} 
+            variant={showComparison ? "primary" : "outline"}
+          >
+            <ApperIcon name={showComparison ? "EyeOff" : "Eye"} className="h-4 w-4 mr-2" />
+            {showComparison ? 'Hide' : 'Show'} Comparison
+          </Button>
+          <Button onClick={handleAddSupplier} variant="primary">
+            <ApperIcon name="Plus" className="h-4 w-4 mr-2" />
+            Add Supplier
+          </Button>
+        </div>
       </div>
 
       {/* Suppliers Grid */}
@@ -230,6 +287,11 @@ const Suppliers = () => {
                       <span className="line-clamp-2">{supplier.address}</span>
                     </div>
                   )}
+                </div>
+<div className="flex items-center text-sm text-gray-600">
+                  <ApperIcon name="Package" className="h-4 w-4 mr-1" />
+                  <span className="font-medium">MOQ:</span>
+                  <span className="ml-1">{supplier.minimumOrderQuantity || 0} units</span>
                 </div>
 
                 {/* Business Terms */}
@@ -316,11 +378,177 @@ const Suppliers = () => {
                     </div>
                   </div>
                 )}
+{supplier.notes && (
+                  <div className="mt-3 pt-3 border-t border-gray-200">
+                    <p className="text-sm text-gray-600">{supplier.notes}</p>
+                  </div>
+                )}
               </CardContent>
             </Card>
           );
         })}
       </div>
+
+      {/* Vendor Comparison Section */}
+      {showComparison && suppliers.length > 0 && (
+        <Card className="mt-6">
+          <CardHeader>
+            <div className="flex justify-between items-center">
+              <div>
+                <h2 className="text-xl font-bold text-gray-900">Vendor Comparison & Analysis</h2>
+                <p className="text-sm text-gray-600 mt-1">Compare suppliers by performance, pricing, and reliability</p>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            {/* Summary Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+              <div className="bg-blue-50 rounded-lg p-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-gray-600">Avg Lead Time</p>
+                    <p className="text-2xl font-bold text-gray-900">{avgLeadTime} days</p>
+                  </div>
+                  <ApperIcon name="Clock" className="h-8 w-8 text-blue-600" />
+                </div>
+              </div>
+              <div className="bg-green-50 rounded-lg p-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-gray-600">Top Performers</p>
+                    <p className="text-2xl font-bold text-gray-900">{topPerformers}</p>
+                  </div>
+                  <ApperIcon name="TrendingUp" className="h-8 w-8 text-green-600" />
+                </div>
+              </div>
+              <div className="bg-purple-50 rounded-lg p-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-gray-600">Total MOQ</p>
+                    <p className="text-2xl font-bold text-gray-900">{totalMOQ.toLocaleString()}</p>
+                  </div>
+                  <ApperIcon name="Package" className="h-8 w-8 text-purple-600" />
+                </div>
+              </div>
+            </div>
+
+            {/* Comparison Table */}
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th 
+                      className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                      onClick={() => handleSort('name')}
+                    >
+                      <div className="flex items-center gap-1">
+                        Supplier
+                        {sortField === 'name' && (
+                          <ApperIcon name={sortDirection === 'asc' ? 'ChevronUp' : 'ChevronDown'} className="h-3 w-3" />
+                        )}
+                      </div>
+                    </th>
+                    <th 
+                      className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                      onClick={() => handleSort('performanceRating')}
+                    >
+                      <div className="flex items-center gap-1">
+                        Performance
+                        {sortField === 'performanceRating' && (
+                          <ApperIcon name={sortDirection === 'asc' ? 'ChevronUp' : 'ChevronDown'} className="h-3 w-3" />
+                        )}
+                      </div>
+                    </th>
+                    <th 
+                      className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                      onClick={() => handleSort('leadTimeDays')}
+                    >
+                      <div className="flex items-center gap-1">
+                        Lead Time
+                        {sortField === 'leadTimeDays' && (
+                          <ApperIcon name={sortDirection === 'asc' ? 'ChevronUp' : 'ChevronDown'} className="h-3 w-3" />
+                        )}
+                      </div>
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Payment Terms
+                    </th>
+                    <th 
+                      className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                      onClick={() => handleSort('minimumOrderQuantity')}
+                    >
+                      <div className="flex items-center gap-1">
+                        MOQ
+                        {sortField === 'minimumOrderQuantity' && (
+                          <ApperIcon name={sortDirection === 'asc' ? 'ChevronUp' : 'ChevronDown'} className="h-3 w-3" />
+                        )}
+                      </div>
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Contact
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {sortedSuppliers.map((supplier) => (
+                    <tr key={supplier.Id} className="hover:bg-gray-50">
+                      <td className="px-4 py-4 whitespace-nowrap">
+                        <div className="font-medium text-gray-900">{supplier.name}</div>
+                        <div className="text-sm text-gray-500">{getSupplierStats(supplier.Id).productCount} products</div>
+                      </td>
+                      <td className="px-4 py-4 whitespace-nowrap">
+                        <div className="flex items-center gap-2">
+                          <div className="flex items-center">
+                            {[...Array(5)].map((_, i) => (
+                              <ApperIcon
+                                key={i}
+                                name={i < Math.floor(supplier.performanceRating || 0) ? 'Star' : 'StarOff'}
+                                className={`h-4 w-4 ${i < Math.floor(supplier.performanceRating || 0) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`}
+                              />
+                            ))}
+                          </div>
+                          <span className={`text-sm font-medium ${getPerformanceColor(supplier.performanceRating || 0)}`}>
+                            {(supplier.performanceRating || 0).toFixed(1)}
+                          </span>
+                        </div>
+                        <div className="mt-1">
+                          <span className={`inline-flex text-xs px-2 py-1 rounded-full ${
+                            supplier.performanceRating >= 4.5 ? 'bg-green-100 text-green-800' :
+                            supplier.performanceRating >= 3.5 ? 'bg-blue-100 text-blue-800' :
+                            supplier.performanceRating >= 2.5 ? 'bg-yellow-100 text-yellow-800' :
+                            'bg-red-100 text-red-800'
+                          }`}>
+                            {getPerformanceBadge(supplier.performanceRating || 0)}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-4 py-4 whitespace-nowrap">
+                        <div className="flex items-center gap-1">
+                          <ApperIcon name="Clock" className="h-4 w-4 text-gray-400" />
+                          <span className="text-sm text-gray-900">{supplier.leadTimeDays || 14} days</span>
+                        </div>
+                      </td>
+                      <td className="px-4 py-4 whitespace-nowrap">
+                        <span className="text-sm text-gray-900">{supplier.paymentTerms || 'Net 30'}</span>
+                      </td>
+                      <td className="px-4 py-4 whitespace-nowrap">
+                        <div className="flex items-center gap-1">
+                          <ApperIcon name="Package" className="h-4 w-4 text-gray-400" />
+                          <span className="text-sm text-gray-900">{(supplier.minimumOrderQuantity || 0).toLocaleString()}</span>
+                        </div>
+                      </td>
+                      <td className="px-4 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">{supplier.contactPerson || 'N/A'}</div>
+                        <div className="text-sm text-gray-500">{supplier.email || 'N/A'}</div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       <SupplierModal
         isOpen={showSupplierModal}

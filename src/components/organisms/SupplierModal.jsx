@@ -13,7 +13,9 @@ const [formData, setFormData] = useState({
     address: "",
     paymentTerms: "Net 30",
     leadTimeDays: 14,
-    performanceRating: 0
+    performanceRating: 0,
+    minimumOrderQuantity: 0,
+    notes: ""
   });
   
   const [errors, setErrors] = useState({});
@@ -29,7 +31,9 @@ setFormData({
         address: supplier.address || "",
         paymentTerms: supplier.paymentTerms || "Net 30",
         leadTimeDays: supplier.leadTimeDays || 14,
-        performanceRating: supplier.performanceRating || 0
+        performanceRating: supplier.performanceRating || 0,
+        minimumOrderQuantity: supplier.minimumOrderQuantity || 0,
+        notes: supplier.notes || ""
       });
     } else {
       setFormData({
@@ -154,8 +158,16 @@ setFormData({
             error={errors.address}
             placeholder="Enter supplier address"
           />
-
 <FormField
+                  label="Minimum Order Quantity"
+                  type="number"
+                  value={formData.minimumOrderQuantity}
+                  onChange={(e) => setFormData({ ...formData, minimumOrderQuantity: e.target.value })}
+                  placeholder="0"
+                  min="0"
+                />
+
+                <FormField
             label="Payment Terms"
             type="select"
             value={formData.paymentTerms}

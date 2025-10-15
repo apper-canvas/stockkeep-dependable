@@ -47,7 +47,9 @@ async create(supplierData) {
       Id: maxId + 1,
       paymentTerms: supplierData.paymentTerms || 'Net 30',
       leadTimeDays: supplierData.leadTimeDays ? parseInt(supplierData.leadTimeDays) : 14,
-      performanceRating: supplierData.performanceRating ? parseFloat(supplierData.performanceRating) : 0
+      performanceRating: supplierData.performanceRating ? parseFloat(supplierData.performanceRating) : 0,
+      minimumOrderQuantity: supplierData.minimumOrderQuantity ? parseInt(supplierData.minimumOrderQuantity) : 0,
+      notes: supplierData.notes || ''
     };
 
     suppliers.push(newSupplier);
@@ -55,7 +57,7 @@ async create(supplierData) {
     return newSupplier;
   },
 
-  async update(id, supplierData) {
+async update(id, supplierData) {
     await delay(350);
     const suppliers = getStoredSuppliers();
     const index = suppliers.findIndex(supplier => supplier.Id === parseInt(id));
@@ -70,7 +72,9 @@ async create(supplierData) {
       Id: parseInt(id),
       paymentTerms: supplierData.paymentTerms || suppliers[index].paymentTerms || 'Net 30',
       leadTimeDays: supplierData.leadTimeDays ? parseInt(supplierData.leadTimeDays) : suppliers[index].leadTimeDays || 14,
-      performanceRating: supplierData.performanceRating !== undefined ? parseFloat(supplierData.performanceRating) : suppliers[index].performanceRating || 0
+      performanceRating: supplierData.performanceRating !== undefined ? parseFloat(supplierData.performanceRating) : suppliers[index].performanceRating || 0,
+      minimumOrderQuantity: supplierData.minimumOrderQuantity !== undefined ? parseInt(supplierData.minimumOrderQuantity) : suppliers[index].minimumOrderQuantity || 0,
+      notes: supplierData.notes !== undefined ? supplierData.notes : suppliers[index].notes || ''
     };
 
     saveSuppliers(suppliers);
