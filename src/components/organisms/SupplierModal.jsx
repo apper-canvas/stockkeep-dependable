@@ -15,7 +15,12 @@ const [formData, setFormData] = useState({
     leadTimeDays: 14,
     performanceRating: 0,
     minimumOrderQuantity: 0,
-    notes: ""
+    notes: "",
+    contractStartDate: "",
+    contractEndDate: "",
+    contractValue: 0,
+    renewalReminderDays: 30,
+    contractTerms: ""
   });
   
   const [errors, setErrors] = useState({});
@@ -33,10 +38,15 @@ setFormData({
         leadTimeDays: supplier.leadTimeDays || 14,
         performanceRating: supplier.performanceRating || 0,
         minimumOrderQuantity: supplier.minimumOrderQuantity || 0,
-        notes: supplier.notes || ""
+        notes: supplier.notes || "",
+        contractStartDate: supplier.contractStartDate || "",
+        contractEndDate: supplier.contractEndDate || "",
+        contractValue: supplier.contractValue || 0,
+        renewalReminderDays: supplier.renewalReminderDays || 30,
+        contractTerms: supplier.contractTerms || ""
       });
     } else {
-      setFormData({
+setFormData({
         name: "",
         contactPerson: "",
         email: "",
@@ -44,7 +54,14 @@ setFormData({
         address: "",
         paymentTerms: "Net 30",
         leadTimeDays: 14,
-        performanceRating: 0
+        performanceRating: 0,
+        minimumOrderQuantity: 0,
+        notes: "",
+        contractStartDate: "",
+        contractEndDate: "",
+        contractValue: 0,
+        renewalReminderDays: 30,
+        contractTerms: ""
       });
     }
     setErrors({});
@@ -162,10 +179,69 @@ setFormData({
                   label="Minimum Order Quantity"
                   type="number"
                   value={formData.minimumOrderQuantity}
-                  onChange={(e) => setFormData({ ...formData, minimumOrderQuantity: e.target.value })}
+                  onChange={(value) => handleChange("minimumOrderQuantity", value)}
                   placeholder="0"
                   min="0"
                 />
+
+          <div className="pt-4 border-t">
+            <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
+              <ApperIcon name="FileText" className="h-4 w-4" />
+              Contract Management
+            </h3>
+
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-3">
+                <FormField
+                  label="Contract Start Date"
+                  type="date"
+                  value={formData.contractStartDate}
+                  onChange={(value) => handleChange("contractStartDate", value)}
+                  error={errors.contractStartDate}
+                />
+
+                <FormField
+                  label="Contract End Date"
+                  type="date"
+                  value={formData.contractEndDate}
+                  onChange={(value) => handleChange("contractEndDate", value)}
+                  error={errors.contractEndDate}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <FormField
+                  label="Contract Value ($)"
+                  type="number"
+                  value={formData.contractValue}
+                  onChange={(value) => handleChange("contractValue", value)}
+                  error={errors.contractValue}
+                  placeholder="0.00"
+                  min="0"
+                  step="0.01"
+                />
+
+                <FormField
+                  label="Renewal Reminder (Days)"
+                  type="number"
+                  value={formData.renewalReminderDays}
+                  onChange={(value) => handleChange("renewalReminderDays", value)}
+                  error={errors.renewalReminderDays}
+                  placeholder="30"
+                  min="1"
+                />
+              </div>
+
+              <FormField
+                label="Contract Terms"
+                type="textarea"
+                value={formData.contractTerms}
+                onChange={(value) => handleChange("contractTerms", value)}
+                error={errors.contractTerms}
+                placeholder="Enter contract terms and conditions"
+              />
+            </div>
+          </div>
 
                 <FormField
             label="Payment Terms"
