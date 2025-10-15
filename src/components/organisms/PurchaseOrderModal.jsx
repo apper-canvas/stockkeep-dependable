@@ -189,8 +189,8 @@ const PurchaseOrderModal = ({
             <FormField
               label="Supplier"
               type="select"
-              value={formData.supplierId}
-              onChange={(e) => handleChange('supplierId', e.target.value)}
+value={formData.supplierId}
+              onChange={(value) => handleChange('supplierId', value)}
               options={[
                 { value: '', label: 'Select supplier...' },
                 ...suppliers.map(supplier => ({
@@ -205,7 +205,7 @@ const PurchaseOrderModal = ({
               label="Status"
               type="select"
               value={formData.status}
-              onChange={(e) => handleChange('status', e.target.value)}
+onChange={(value) => handleChange('status', value)}
               options={[
                 { value: 'draft', label: 'Draft' },
                 { value: 'submitted', label: 'Submitted' },
@@ -220,16 +220,16 @@ const PurchaseOrderModal = ({
             <FormField
               label="Order Date"
               type="date"
-              value={formData.orderDate}
-              onChange={(e) => handleChange('orderDate', e.target.value)}
+value={formData.orderDate}
+              onChange={(value) => handleChange('orderDate', value)}
               required
             />
 
             <FormField
               label="Expected Delivery Date"
               type="date"
-              value={formData.expectedDeliveryDate}
-              onChange={(e) => handleChange('expectedDeliveryDate', e.target.value)}
+value={formData.expectedDeliveryDate}
+              onChange={(value) => handleChange('expectedDeliveryDate', value)}
               required
             />
           </div>
@@ -237,8 +237,8 @@ const PurchaseOrderModal = ({
           <FormField
             label="Notes"
             type="textarea"
-            value={formData.notes}
-            onChange={(e) => handleChange('notes', e.target.value)}
+value={formData.notes}
+            onChange={(value) => handleChange('notes', value)}
             placeholder="Add any additional notes..."
           />
 
@@ -292,7 +292,7 @@ const PurchaseOrderModal = ({
                           label="Product"
                           type="select"
                           value={item.productId}
-                          onChange={(e) => updateLineItem(index, 'productId', e.target.value)}
+onChange={(value) => updateLineItem(index, 'productId', value)}
                           options={[
                             { value: '', label: 'Select product...' },
                             ...products.map(product => ({
@@ -306,16 +306,16 @@ const PurchaseOrderModal = ({
                       <FormField
                         label="Quantity"
                         type="number"
-                        value={item.quantity}
-                        onChange={(e) => updateLineItem(index, 'quantity', e.target.value)}
+value={item.quantity}
+                        onChange={(value) => updateLineItem(index, 'quantity', value)}
                         min="1"
                         required
                       />
                       <FormField
                         label="Unit Price"
                         type="number"
-                        value={item.unitPrice}
-                        onChange={(e) => updateLineItem(index, 'unitPrice', e.target.value)}
+value={item.unitPrice}
+                        onChange={(value) => updateLineItem(index, 'unitPrice', value)}
                         min="0"
                         step="0.01"
                         required
