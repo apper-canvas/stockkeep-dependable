@@ -327,7 +327,7 @@ const SalesOrders = () => {
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        {quote.status === "Accepted" && (
+{quote.status === "accepted" && (
                           <Button
                             size="sm"
                             onClick={() => handleConvertToOrder(quote)}
