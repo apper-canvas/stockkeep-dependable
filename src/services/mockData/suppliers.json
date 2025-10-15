@@ -8,7 +8,12 @@
     "address": "One Apple Park Way, Cupertino, CA 95014",
     "paymentTerms": "Net 30",
     "leadTimeDays": 14,
-    "performanceRating": 4.8
+    "performanceRating": 4.8,
+    "contractStartDate": "2024-01-15",
+    "contractEndDate": "2025-01-14",
+    "renewalReminderDays": 60,
+    "contractValue": 2500000,
+    "contractTerms": "Annual supply agreement with quarterly reviews and volume discounts"
   },
   {
     "Id": 2,
@@ -19,7 +24,12 @@
     "address": "25 Madison Avenue, New York, NY 10010",
     "paymentTerms": "Net 60",
     "leadTimeDays": 21,
-    "performanceRating": 4.5
+    "performanceRating": 4.5,
+    "contractStartDate": "2023-06-01",
+    "contractEndDate": "2025-05-31",
+    "renewalReminderDays": 90,
+    "contractValue": 1800000,
+    "contractTerms": "Two-year partnership with exclusive product lines and marketing support"
   },
   {
     "Id": 3,
@@ -30,7 +40,12 @@
     "address": "One Dell Way, Round Rock, TX 78682",
     "paymentTerms": "Net 30",
     "leadTimeDays": 10,
-    "performanceRating": 4.9
+    "performanceRating": 4.9,
+    "contractStartDate": "2024-03-01",
+    "contractEndDate": "2025-02-28",
+    "renewalReminderDays": 45,
+    "contractValue": 3200000,
+    "contractTerms": "Preferred vendor agreement with priority shipping and technical support"
   },
   {
     "Id": 4,
@@ -41,7 +56,12 @@
     "address": "85 Challenger Road, Ridgefield Park, NJ 07660",
     "paymentTerms": "Net 45",
     "leadTimeDays": 18,
-    "performanceRating": 4.6
+    "performanceRating": 4.6,
+    "contractStartDate": "2023-09-15",
+    "contractEndDate": "2024-12-31",
+    "renewalReminderDays": 30,
+    "contractValue": 2100000,
+    "contractTerms": "Multi-category supply contract with flexible payment terms"
   },
   {
     "Id": 5,
@@ -52,7 +72,12 @@
     "address": "One Microsoft Way, Redmond, WA 98052",
     "paymentTerms": "Net 30",
     "leadTimeDays": 7,
-    "performanceRating": 5.0
+    "performanceRating": 5.0,
+    "contractStartDate": "2024-01-01",
+    "contractEndDate": "2026-12-31",
+    "renewalReminderDays": 120,
+    "contractValue": 4500000,
+    "contractTerms": "Three-year strategic partnership with co-marketing and joint product development"
   },
   {
     "Id": 6,
@@ -63,6 +88,11 @@
     "address": "4600 150th Avenue NE, Redmond, WA 98052",
     "paymentTerms": "Net 90",
     "leadTimeDays": 30,
-    "performanceRating": 4.3
+    "performanceRating": 4.3,
+    "contractStartDate": "2023-11-01",
+    "contractEndDate": "2024-10-31",
+    "renewalReminderDays": 60,
+    "contractValue": 1500000,
+    "contractTerms": "Annual distribution agreement with seasonal volume commitments"
   }
 ]

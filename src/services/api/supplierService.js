@@ -49,7 +49,12 @@ async create(supplierData) {
       leadTimeDays: supplierData.leadTimeDays ? parseInt(supplierData.leadTimeDays) : 14,
       performanceRating: supplierData.performanceRating ? parseFloat(supplierData.performanceRating) : 0,
       minimumOrderQuantity: supplierData.minimumOrderQuantity ? parseInt(supplierData.minimumOrderQuantity) : 0,
-      notes: supplierData.notes || ''
+      notes: supplierData.notes || '',
+      contractStartDate: supplierData.contractStartDate || null,
+      contractEndDate: supplierData.contractEndDate || null,
+      renewalReminderDays: supplierData.renewalReminderDays ? parseInt(supplierData.renewalReminderDays) : 30,
+      contractValue: supplierData.contractValue ? parseFloat(supplierData.contractValue) : 0,
+      contractTerms: supplierData.contractTerms || ''
     };
 
     suppliers.push(newSupplier);
@@ -74,7 +79,12 @@ async update(id, supplierData) {
       leadTimeDays: supplierData.leadTimeDays ? parseInt(supplierData.leadTimeDays) : suppliers[index].leadTimeDays || 14,
       performanceRating: supplierData.performanceRating !== undefined ? parseFloat(supplierData.performanceRating) : suppliers[index].performanceRating || 0,
       minimumOrderQuantity: supplierData.minimumOrderQuantity !== undefined ? parseInt(supplierData.minimumOrderQuantity) : suppliers[index].minimumOrderQuantity || 0,
-      notes: supplierData.notes !== undefined ? supplierData.notes : suppliers[index].notes || ''
+      notes: supplierData.notes !== undefined ? supplierData.notes : suppliers[index].notes || '',
+      contractStartDate: supplierData.contractStartDate !== undefined ? supplierData.contractStartDate : suppliers[index].contractStartDate || null,
+      contractEndDate: supplierData.contractEndDate !== undefined ? supplierData.contractEndDate : suppliers[index].contractEndDate || null,
+      renewalReminderDays: supplierData.renewalReminderDays !== undefined ? parseInt(supplierData.renewalReminderDays) : suppliers[index].renewalReminderDays || 30,
+      contractValue: supplierData.contractValue !== undefined ? parseFloat(supplierData.contractValue) : suppliers[index].contractValue || 0,
+      contractTerms: supplierData.contractTerms !== undefined ? supplierData.contractTerms : suppliers[index].contractTerms || ''
     };
 
     saveSuppliers(suppliers);

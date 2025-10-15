@@ -9,6 +9,7 @@ const Categories = lazy(() => import("@/components/pages/Categories"));
 const Suppliers = lazy(() => import("@/components/pages/Suppliers"));
 const PurchaseOrders = lazy(() => import("@/components/pages/PurchaseOrders"));
 const SalesOrders = lazy(() => import("@/components/pages/SalesOrders"));
+const Contracts = lazy(() => import("@/components/pages/Suppliers"));
 const NotFound = lazy(() => import("@/components/pages/NotFound"));
 
 // Define main routes
@@ -59,6 +60,14 @@ const mainRoutes = [
     element: (
       <Suspense fallback={<div>Loading.....</div>}>
         <SalesOrders />
+      </Suspense>
+)
+  },
+  {
+    path: "contracts",
+    element: (
+      <Suspense fallback={<div>Loading.....</div>}>
+        <Contracts />
       </Suspense>
     )
   },
