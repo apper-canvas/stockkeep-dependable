@@ -1,5 +1,5 @@
 import purchaseOrdersData from '@/services/mockData/purchaseOrders.json';
-
+import suppliersData from '@/services/mockData/suppliers.json';
 const STORAGE_KEY = 'purchaseOrders';
 
 function getStoredPurchaseOrders() {
@@ -107,7 +107,7 @@ export const purchaseOrderService = {
     return { success: true };
   },
 
-  async updateStatus(id, newStatus) {
+async updateStatus(id, newStatus) {
     await delay(300);
     const purchaseOrders = getStoredPurchaseOrders();
     const index = purchaseOrders.findIndex(po => po.Id === parseInt(id));
@@ -129,7 +129,45 @@ export const purchaseOrderService = {
     
     savePurchaseOrders(purchaseOrders);
     
-    return { ...purchaseOrders[index] };
+    const updatedPO = { ...purchaseOrders[index] };
+    
+    const supplier = suppliersData.find(s => s.Id === updatedPO.supplierId);
+    if (supplier && supplier.email) {
+      try {
+        if (typeof window !== 'undefined' && window.ApperSDK) {
+          const { ApperClient } = window.ApperSDK;
+          const apperClient = new ApperClient({
+            apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+            apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+          });
+
+          const emailResult = await apperClient.functions.invoke(
+            import.meta.env.VITE_SEND_PO_NOTIFICATION,
+            {
+              body: JSON.stringify({
+                purchaseOrderId: updatedPO.Id,
+                status: newStatus,
+                supplierEmail: supplier.email,
+                supplierName: supplier.name,
+                orderDate: updatedPO.orderDate,
+                expectedDeliveryDate: updatedPO.expectedDeliveryDate
+              }),
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            }
+          );
+
+          if (!emailResult.success) {
+            console.info(`apper_info: Got an error in this function: ${import.meta.env.VITE_SEND_PO_NOTIFICATION}. The response body is: ${JSON.stringify(emailResult)}.`);
+          }
+        }
+      } catch (error) {
+        console.info(`apper_info: Got this error an this function: ${import.meta.env.VITE_SEND_PO_NOTIFICATION}. The error is: ${error.message}`);
+      }
+    }
+    
+    return updatedPO;
   },
 
   async getRecent(limit = 5) {

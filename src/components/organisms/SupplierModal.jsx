@@ -5,12 +5,15 @@ import FormField from "@/components/molecules/FormField";
 import ApperIcon from "@/components/ApperIcon";
 
 const SupplierModal = ({ isOpen, onClose, onSave, supplier = null }) => {
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     name: "",
     contactPerson: "",
     email: "",
     phone: "",
-    address: ""
+    address: "",
+    paymentTerms: "Net 30",
+    leadTimeDays: 14,
+    performanceRating: 0
   });
   
   const [errors, setErrors] = useState({});
@@ -18,12 +21,15 @@ const SupplierModal = ({ isOpen, onClose, onSave, supplier = null }) => {
 
   useEffect(() => {
     if (supplier) {
-      setFormData({
+setFormData({
         name: supplier.name || "",
         contactPerson: supplier.contactPerson || "",
         email: supplier.email || "",
         phone: supplier.phone || "",
-        address: supplier.address || ""
+        address: supplier.address || "",
+        paymentTerms: supplier.paymentTerms || "Net 30",
+        leadTimeDays: supplier.leadTimeDays || 14,
+        performanceRating: supplier.performanceRating || 0
       });
     } else {
       setFormData({
@@ -31,7 +37,10 @@ const SupplierModal = ({ isOpen, onClose, onSave, supplier = null }) => {
         contactPerson: "",
         email: "",
         phone: "",
-        address: ""
+        address: "",
+        paymentTerms: "Net 30",
+        leadTimeDays: 14,
+        performanceRating: 0
       });
     }
     setErrors({});
@@ -102,7 +111,7 @@ const SupplierModal = ({ isOpen, onClose, onSave, supplier = null }) => {
           </Button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+<form onSubmit={handleSubmit} className="p-6 space-y-4">
           <FormField
             label="Supplier Name"
             value={formData.name}
@@ -144,6 +153,47 @@ const SupplierModal = ({ isOpen, onClose, onSave, supplier = null }) => {
             onChange={(value) => handleChange("address", value)}
             error={errors.address}
             placeholder="Enter supplier address"
+          />
+
+          <FormField
+            label="Payment Terms"
+            type="select"
+            value={formData.paymentTerms}
+            onChange={(e) => handleChange("paymentTerms", e.target.value)}
+            error={errors.paymentTerms}
+            options={[
+              { value: 'Net 30', label: 'Net 30 Days' },
+              { value: 'Net 60', label: 'Net 60 Days' },
+              { value: 'Net 90', label: 'Net 90 Days' },
+              { value: 'Net 45', label: 'Net 45 Days' },
+              { value: 'COD', label: 'Cash on Delivery' }
+            ]}
+          />
+
+          <FormField
+            label="Lead Time (Days)"
+            type="number"
+            value={formData.leadTimeDays}
+            onChange={(value) => handleChange("leadTimeDays", value)}
+            error={errors.leadTimeDays}
+            placeholder="Enter lead time in days"
+            min="1"
+          />
+
+          <FormField
+            label="Performance Rating"
+            type="select"
+            value={formData.performanceRating}
+            onChange={(e) => handleChange("performanceRating", e.target.value)}
+            error={errors.performanceRating}
+            options={[
+              { value: '0', label: 'Not Rated' },
+              { value: '1', label: '⭐ (1 Star)' },
+              { value: '2', label: '⭐⭐ (2 Stars)' },
+              { value: '3', label: '⭐⭐⭐ (3 Stars)' },
+              { value: '4', label: '⭐⭐⭐⭐ (4 Stars)' },
+              { value: '5', label: '⭐⭐⭐⭐⭐ (5 Stars)' }
+            ]}
           />
 
           <div className="flex justify-end gap-3 pt-4 border-t">

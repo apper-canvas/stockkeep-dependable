@@ -37,14 +37,17 @@ export const supplierService = {
     return suppliers.find(supplier => supplier.Id === parseInt(id));
   },
 
-  async create(supplierData) {
+async create(supplierData) {
     await delay(350);
     const suppliers = getStoredSuppliers();
     const maxId = suppliers.length > 0 ? Math.max(...suppliers.map(s => s.Id)) : 0;
     
     const newSupplier = {
       ...supplierData,
-      Id: maxId + 1
+      Id: maxId + 1,
+      paymentTerms: supplierData.paymentTerms || 'Net 30',
+      leadTimeDays: supplierData.leadTimeDays ? parseInt(supplierData.leadTimeDays) : 14,
+      performanceRating: supplierData.performanceRating ? parseFloat(supplierData.performanceRating) : 0
     };
 
     suppliers.push(newSupplier);
@@ -64,7 +67,10 @@ export const supplierService = {
     suppliers[index] = {
       ...suppliers[index],
       ...supplierData,
-      Id: parseInt(id)
+      Id: parseInt(id),
+      paymentTerms: supplierData.paymentTerms || suppliers[index].paymentTerms || 'Net 30',
+      leadTimeDays: supplierData.leadTimeDays ? parseInt(supplierData.leadTimeDays) : suppliers[index].leadTimeDays || 14,
+      performanceRating: supplierData.performanceRating !== undefined ? parseFloat(supplierData.performanceRating) : suppliers[index].performanceRating || 0
     };
 
     saveSuppliers(suppliers);

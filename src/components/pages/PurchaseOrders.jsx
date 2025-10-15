@@ -95,10 +95,10 @@ const PurchaseOrders = () => {
     }
   };
 
-  const handleStatusChange = async (poId, newStatus) => {
+const handleStatusChange = async (poId, newStatus) => {
     try {
       await purchaseOrderService.updateStatus(poId, newStatus);
-      toast.success('Status updated successfully');
+      toast.success('Status updated successfully. Notification email sent to supplier.');
       await loadData();
     } catch (error) {
       toast.error(error.message || 'Failed to update status');

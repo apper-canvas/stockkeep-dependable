@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/atoms/Card";
-import Button from "@/components/atoms/Button";
-import SupplierModal from "@/components/organisms/SupplierModal";
-import ConfirmDialog from "@/components/organisms/ConfirmDialog";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
-import Empty from "@/components/ui/Empty";
-import ApperIcon from "@/components/ApperIcon";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/atoms/Card";
+import { Badge } from "@/components/atoms/Badge";
 import { supplierService } from "@/services/api/supplierService";
 import { productService } from "@/services/api/productService";
+import ApperIcon from "@/components/ApperIcon";
+import Loading from "@/components/ui/Loading";
+import Empty from "@/components/ui/Empty";
+import Error from "@/components/ui/Error";
+import Button from "@/components/atoms/Button";
+import ConfirmDialog from "@/components/organisms/ConfirmDialog";
+import SupplierModal from "@/components/organisms/SupplierModal";
 
 const Suppliers = () => {
   const [suppliers, setSuppliers] = useState([]);
@@ -204,7 +205,7 @@ const Suppliers = () => {
                 </div>
               </CardHeader>
               
-              <CardContent>
+<CardContent>
                 {/* Contact Info */}
                 <div className="space-y-2 mb-4">
                   {supplier.email && (
@@ -227,6 +228,50 @@ const Suppliers = () => {
                     <div className="flex items-start gap-2 text-sm text-gray-600">
                       <ApperIcon name="MapPin" className="h-4 w-4 mt-0.5 flex-shrink-0" />
                       <span className="line-clamp-2">{supplier.address}</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Business Terms */}
+                <div className="space-y-2 pt-3 border-t border-gray-100">
+                  {supplier.paymentTerms && (
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-600">Payment Terms</span>
+                      <Badge variant={supplier.paymentTerms === 'COD' ? 'warning' : 'default'} className="text-xs">
+                        {supplier.paymentTerms}
+                      </Badge>
+                    </div>
+                  )}
+                  {supplier.leadTimeDays !== undefined && (
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-600 flex items-center gap-1">
+                        <ApperIcon name="Clock" className="h-3 w-3" />
+                        Lead Time
+                      </span>
+                      <span className="text-sm font-medium text-gray-900">
+                        {supplier.leadTimeDays} days
+                      </span>
+                    </div>
+                  )}
+                  {supplier.performanceRating > 0 && (
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-600">Performance</span>
+                      <div className="flex items-center gap-1">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <ApperIcon
+                            key={star}
+                            name="Star"
+                            className={`h-3 w-3 ${
+                              star <= supplier.performanceRating
+                                ? 'text-yellow-500 fill-yellow-500'
+                                : 'text-gray-300'
+                            }`}
+                          />
+                        ))}
+                        <span className="text-xs text-gray-600 ml-1">
+                          ({supplier.performanceRating.toFixed(1)})
+                        </span>
+                      </div>
                     </div>
                   )}
                 </div>
