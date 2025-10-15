@@ -1,0 +1,32 @@
+[
+  {
+    "Id": 1,
+    "name": "Laptops",
+    "description": "Portable computers and laptops",
+    "productCount": 2
+  },
+  {
+    "Id": 2,
+    "name": "Smartphones", 
+    "description": "Mobile phones and smartphones",
+    "productCount": 2
+  },
+  {
+    "Id": 3,
+    "name": "Tablets",
+    "description": "Tablet computers and iPads",
+    "productCount": 2
+  },
+  {
+    "Id": 4,
+    "name": "Accessories",
+    "description": "Tech accessories and peripherals",
+    "productCount": 2
+  },
+  {
+    "Id": 5,
+    "name": "Gaming",
+    "description": "Gaming consoles and equipment",
+    "productCount": 2
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "Id": 1,
+    "name": "Apple Inc.",
+    "contactPerson": "Sarah Johnson",
+    "email": "sarah.johnson@apple.com",
+    "phone": "+1-800-APL-CARE",
+    "address": "One Apple Park Way, Cupertino, CA 95014"
+  },
+  {
+    "Id": 2,
+    "name": "Sony Electronics",
+    "contactPerson": "Michael Chen",
+    "email": "m.chen@sony.com",
+    "phone": "+1-800-222-7669",
+    "address": "25 Madison Avenue, New York, NY 10010"
+  },
+  {
+    "Id": 3,
+    "name": "Dell Technologies",
+    "contactPerson": "Amanda Rodriguez",
+    "email": "amanda.rodriguez@dell.com",
+    "phone": "+1-800-624-9896",
+    "address": "One Dell Way, Round Rock, TX 78682"
+  },
+  {
+    "Id": 4,
+    "name": "Samsung America",
+    "contactPerson": "David Kim",
+    "email": "d.kim@samsung.com",
+    "phone": "+1-800-726-7864",
+    "address": "85 Challenger Road, Ridgefield Park, NJ 07660"
+  },
+  {
+    "Id": 5,
+    "name": "Microsoft Corporation",
+    "contactPerson": "Jennifer Liu",
+    "email": "jennifer.liu@microsoft.com",
+    "phone": "+1-800-642-7676",
+    "address": "One Microsoft Way, Redmond, WA 98052"
+  },
+  {
+    "Id": 6,
+    "name": "Nintendo of America",
+    "contactPerson": "Robert Taylor",
+    "email": "r.taylor@nintendo.com",
+    "phone": "+1-800-255-3700",
+    "address": "4600 150th Avenue NE, Redmond, WA 98052"
+  }
+]

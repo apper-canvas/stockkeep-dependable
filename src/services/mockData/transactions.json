@@ -1,0 +1,42 @@
+[
+  {
+    "Id": 1,
+    "productId": 1,
+    "type": "stock_in",
+    "quantity": 5,
+    "date": "2023-11-28T10:00:00.000Z",
+    "notes": "New shipment received"
+  },
+  {
+    "Id": 2,
+    "productId": 2,
+    "type": "stock_out",
+    "quantity": 2,
+    "date": "2023-11-29T14:30:00.000Z",
+    "notes": "Customer purchase"
+  },
+  {
+    "Id": 3,
+    "productId": 4,
+    "type": "stock_in",
+    "quantity": 10,
+    "date": "2023-11-30T09:15:00.000Z",
+    "notes": "Restock from supplier"
+  },
+  {
+    "Id": 4,
+    "productId": 5,
+    "type": "stock_out",
+    "quantity": 1,
+    "date": "2023-11-30T16:45:00.000Z",
+    "notes": "Last unit sold"
+  },
+  {
+    "Id": 5,
+    "productId": 8,
+    "type": "stock_out",
+    "quantity": 3,
+    "date": "2023-12-01T11:20:00.000Z",
+    "notes": "Bulk order shipment"
+  }
+]
