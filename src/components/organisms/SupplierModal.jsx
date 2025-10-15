@@ -155,11 +155,11 @@ setFormData({
             placeholder="Enter supplier address"
           />
 
-          <FormField
+<FormField
             label="Payment Terms"
             type="select"
             value={formData.paymentTerms}
-            onChange={(e) => handleChange("paymentTerms", e.target.value)}
+            onChange={(value) => handleChange("paymentTerms", value)}
             error={errors.paymentTerms}
             options={[
               { value: 'Net 30', label: 'Net 30 Days' },
@@ -180,11 +180,11 @@ setFormData({
             min="1"
           />
 
-          <FormField
+<FormField
             label="Performance Rating"
             type="select"
             value={formData.performanceRating}
-            onChange={(e) => handleChange("performanceRating", e.target.value)}
+            onChange={(value) => handleChange("performanceRating", value)}
             error={errors.performanceRating}
             options={[
               { value: '0', label: 'Not Rated' },
