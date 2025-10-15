@@ -13,14 +13,15 @@ import { productService } from "@/services/api/productService";
 import { categoryService } from "@/services/api/categoryService";
 import { supplierService } from "@/services/api/supplierService";
 import { transactionService } from "@/services/api/transactionService";
-
+import { purchaseOrderService } from "@/services/api/purchaseOrderService";
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [data, setData] = useState({
+const [data, setData] = useState({
     products: [],
     categories: [],
     suppliers: [],
-    transactions: []
+    transactions: [],
+    purchaseOrders: []
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -31,18 +32,20 @@ const Dashboard = () => {
       setLoading(true);
       setError("");
 
-      const [products, categories, suppliers, transactions] = await Promise.all([
+const [products, categories, suppliers, transactions, purchaseOrders] = await Promise.all([
         productService.getAll(),
         categoryService.getAll(),
         supplierService.getAll(),
-        transactionService.getRecent(5)
+        transactionService.getRecent(5),
+        purchaseOrderService.getRecent(5)
       ]);
 
       setData({
         products,
         categories,
         suppliers,
-        transactions
+        transactions,
+        purchaseOrders
       });
     } catch (err) {
       setError("Failed to load dashboard data");
@@ -175,8 +178,8 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+{/* Stats Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
         <StatsCard
           title="Total Products"
           value={totalProducts.toLocaleString()}
@@ -188,6 +191,12 @@ const Dashboard = () => {
           value={formatCurrency(totalValue)}
           icon="DollarSign"
           color="green"
+        />
+        <StatsCard
+          title="Purchase Orders"
+          value={data.purchaseOrders.filter(po => po.status !== 'completed' && po.status !== 'cancelled').length}
+          icon="ShoppingCart"
+          color="purple"
         />
         <StatsCard
           title="Low Stock Items"
@@ -254,49 +263,53 @@ const Dashboard = () => {
           </CardContent>
         </Card>
 
-        {/* Recent Activity */}
+{/* Recent Purchase Orders */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <ApperIcon name="Activity" className="h-5 w-5" />
-              Recent Activity
-            </CardTitle>
+            <div className="flex items-center justify-between">
+              <CardTitle className="flex items-center gap-2">
+                <ApperIcon name="ShoppingCart" className="h-5 w-5" />
+                Recent Purchase Orders
+              </CardTitle>
+              <Button variant="ghost" size="sm" onClick={() => navigate("/purchase-orders")}>
+                View All
+                <ApperIcon name="ChevronRight" className="h-4 w-4 ml-1" />
+              </Button>
+            </div>
           </CardHeader>
           <CardContent>
-            {data.transactions.length > 0 ? (
+            {data.purchaseOrders.length > 0 ? (
               <div className="space-y-3">
-                {data.transactions.map(transaction => {
-                  const product = getTransactionProduct(transaction.productId);
-                  if (!product) return null;
+                {data.purchaseOrders.map(po => {
+                  const supplier = data.suppliers.find(s => s.Id === po.supplierId);
+                  const statusConfig = {
+                    draft: { color: 'bg-gray-100 text-gray-700', label: 'Draft' },
+                    submitted: { color: 'bg-blue-100 text-blue-700', label: 'Submitted' },
+                    approved: { color: 'bg-green-100 text-green-700', label: 'Approved' },
+                    partially_received: { color: 'bg-yellow-100 text-yellow-700', label: 'Partial' },
+                    completed: { color: 'bg-gray-100 text-gray-700', label: 'Completed' },
+                    cancelled: { color: 'bg-red-100 text-red-700', label: 'Cancelled' }
+                  };
+                  const status = statusConfig[po.status] || statusConfig.draft;
                   
                   return (
-                    <div key={transaction.Id} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                      <div className={`rounded-full p-2 ${
-                        transaction.type === "stock_in" 
-                          ? "bg-green-100 text-green-600" 
-                          : "bg-red-100 text-red-600"
-                      }`}>
-                        <ApperIcon 
-                          name={transaction.type === "stock_in" ? "ArrowUp" : "ArrowDown"} 
-                          className="h-4 w-4" 
-                        />
-                      </div>
+                    <div key={po.Id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                       <div className="flex-1">
-                        <h4 className="font-medium text-gray-900">{product.name}</h4>
-                        <p className="text-sm text-gray-500">
-                          {transaction.type === "stock_in" ? "Stock In" : "Stock Out"} • 
-                          {transaction.quantity} units
+                        <div className="flex items-center gap-2">
+                          <h4 className="font-medium text-gray-900">{po.poNumber}</h4>
+                          <span className={`px-2 py-0.5 rounded text-xs font-medium ${status.color}`}>
+                            {status.label}
+                          </span>
+                        </div>
+                        <p className="text-sm text-gray-500 mt-1">
+                          {supplier ? supplier.name : 'Unknown Supplier'} • {po.lineItems.length} items
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="text-sm text-gray-500">
-                          {formatDate(transaction.date)}
+                        <p className="font-medium text-gray-900">{formatCurrency(po.total)}</p>
+                        <p className="text-xs text-gray-500 mt-1">
+                          {formatDate(po.orderDate)}
                         </p>
-                        {transaction.notes && (
-                          <p className="text-xs text-gray-400 mt-1">
-                            {transaction.notes}
-                          </p>
-                        )}
                       </div>
                     </div>
                   );
@@ -304,8 +317,16 @@ const Dashboard = () => {
               </div>
             ) : (
               <div className="text-center py-8">
-                <ApperIcon name="Activity" className="h-12 w-12 text-gray-400 mx-auto mb-3" />
-                <p className="text-gray-500">No recent activity</p>
+                <ApperIcon name="ShoppingCart" className="h-12 w-12 text-gray-400 mx-auto mb-3" />
+                <p className="text-gray-500">No purchase orders found</p>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => navigate("/purchase-orders")}
+                  className="mt-3"
+                >
+                  Create Purchase Order
+                </Button>
               </div>
             )}
           </CardContent>

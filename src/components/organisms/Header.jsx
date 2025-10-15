@@ -10,7 +10,8 @@ const Header = () => {
     { name: "Dashboard", to: "", icon: "LayoutDashboard" },
     { name: "Products", to: "products", icon: "Package" },
     { name: "Categories", to: "categories", icon: "Tag" },
-    { name: "Suppliers", to: "suppliers", icon: "Building2" }
+{ name: "Suppliers", to: "suppliers", icon: "Building2" },
+    { name: "Purchase Orders", to: "purchase-orders", icon: "ShoppingCart" }
   ];
 
   return (

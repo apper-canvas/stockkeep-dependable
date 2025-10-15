@@ -1,0 +1,120 @@
+[
+  {
+    "Id": 1,
+    "poNumber": "PO-2024-0001",
+    "supplierId": 1,
+    "orderDate": "2024-01-15T10:30:00.000Z",
+    "expectedDeliveryDate": "2024-01-25T00:00:00.000Z",
+    "status": "approved",
+    "notes": "Urgent order for restocking popular items",
+    "lineItems": [
+      {
+        "productId": 1,
+        "quantity": 50,
+        "unitPrice": 45.00,
+        "total": 2250.00
+      },
+      {
+        "productId": 3,
+        "quantity": 30,
+        "unitPrice": 120.00,
+        "total": 3600.00
+      }
+    ],
+    "total": 5850.00,
+    "createdAt": "2024-01-15T10:30:00.000Z",
+    "updatedAt": "2024-01-16T14:20:00.000Z"
+  },
+  {
+    "Id": 2,
+    "poNumber": "PO-2024-0002",
+    "supplierId": 2,
+    "orderDate": "2024-01-18T09:15:00.000Z",
+    "expectedDeliveryDate": "2024-02-01T00:00:00.000Z",
+    "status": "submitted",
+    "notes": "Regular monthly order",
+    "lineItems": [
+      {
+        "productId": 2,
+        "quantity": 100,
+        "unitPrice": 22.00,
+        "total": 2200.00
+      }
+    ],
+    "total": 2200.00,
+    "createdAt": "2024-01-18T09:15:00.000Z",
+    "updatedAt": "2024-01-18T09:15:00.000Z"
+  },
+  {
+    "Id": 3,
+    "poNumber": "PO-2024-0003",
+    "supplierId": 3,
+    "orderDate": "2024-01-20T11:00:00.000Z",
+    "expectedDeliveryDate": "2024-01-30T00:00:00.000Z",
+    "status": "draft",
+    "notes": "Pending approval from management",
+    "lineItems": [
+      {
+        "productId": 4,
+        "quantity": 25,
+        "unitPrice": 85.00,
+        "total": 2125.00
+      },
+      {
+        "productId": 5,
+        "quantity": 40,
+        "unitPrice": 35.00,
+        "total": 1400.00
+      }
+    ],
+    "total": 3525.00,
+    "createdAt": "2024-01-20T11:00:00.000Z",
+    "updatedAt": "2024-01-20T11:00:00.000Z"
+  },
+  {
+    "Id": 4,
+    "poNumber": "PO-2024-0004",
+    "supplierId": 1,
+    "orderDate": "2024-01-10T14:30:00.000Z",
+    "expectedDeliveryDate": "2024-01-20T00:00:00.000Z",
+    "status": "completed",
+    "notes": "All items received and verified",
+    "lineItems": [
+      {
+        "productId": 1,
+        "quantity": 30,
+        "unitPrice": 45.00,
+        "total": 1350.00
+      }
+    ],
+    "total": 1350.00,
+    "createdAt": "2024-01-10T14:30:00.000Z",
+    "updatedAt": "2024-01-21T10:00:00.000Z"
+  },
+  {
+    "Id": 5,
+    "poNumber": "PO-2024-0005",
+    "supplierId": 2,
+    "orderDate": "2024-01-22T08:45:00.000Z",
+    "expectedDeliveryDate": "2024-02-05T00:00:00.000Z",
+    "status": "partially_received",
+    "notes": "Partial shipment received, remaining items expected next week",
+    "lineItems": [
+      {
+        "productId": 2,
+        "quantity": 75,
+        "unitPrice": 22.00,
+        "total": 1650.00
+      },
+      {
+        "productId": 3,
+        "quantity": 20,
+        "unitPrice": 120.00,
+        "total": 2400.00
+      }
+    ],
+    "total": 4050.00,
+    "createdAt": "2024-01-22T08:45:00.000Z",
+    "updatedAt": "2024-01-26T15:30:00.000Z"
+  }
+]
