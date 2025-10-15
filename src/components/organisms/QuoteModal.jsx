@@ -210,14 +210,14 @@ const QuoteModal = ({ isOpen, onClose, onSave, quote = null, products = [] }) =>
               label="Customer Name"
               type="text"
               value={formData.customerName}
-              onChange={(e) => handleChange("customerName", e.target.value)}
+onChange={(value) => handleChange("customerName", value)}
               required
             />
             <FormField
               label="Status"
               type="select"
               value={formData.status}
-              onChange={(e) => handleChange("status", e.target.value)}
+onChange={(value) => handleChange("status", value)}
               options={[
                 { value: "Draft", label: "Draft" },
                 { value: "Sent", label: "Sent" },
@@ -230,20 +230,20 @@ const QuoteModal = ({ isOpen, onClose, onSave, quote = null, products = [] }) =>
               label="Email"
               type="email"
               value={formData.customerEmail}
-              onChange={(e) => handleChange("customerEmail", e.target.value)}
+onChange={(value) => handleChange("customerEmail", value)}
               required
             />
             <FormField
               label="Phone"
               type="tel"
-              value={formData.customerPhone}
-              onChange={(e) => handleChange("customerPhone", e.target.value)}
+value={formData.customerPhone}
+              onChange={(value) => handleChange("customerPhone", value)}
             />
             <FormField
               label="Valid Until"
               type="date"
               value={formData.validUntil}
-              onChange={(e) => handleChange("validUntil", e.target.value)}
+onChange={(value) => handleChange("validUntil", value)}
               required
             />
           </div>
@@ -253,7 +253,7 @@ const QuoteModal = ({ isOpen, onClose, onSave, quote = null, products = [] }) =>
               label="Billing Address"
               type="textarea"
               value={formData.billingAddress}
-              onChange={(e) => handleChange("billingAddress", e.target.value)}
+onChange={(value) => handleChange("billingAddress", value)}
               required
             />
             <div>
@@ -261,7 +261,7 @@ const QuoteModal = ({ isOpen, onClose, onSave, quote = null, products = [] }) =>
                 label="Shipping Address"
                 type="textarea"
                 value={formData.shippingAddress}
-                onChange={(e) => handleChange("shippingAddress", e.target.value)}
+onChange={(value) => handleChange("shippingAddress", value)}
                 required
                 disabled={sameAsBilling}
               />
@@ -362,7 +362,7 @@ const QuoteModal = ({ isOpen, onClose, onSave, quote = null, products = [] }) =>
             label="Notes"
             type="textarea"
             value={formData.notes}
-            onChange={(e) => handleChange("notes", e.target.value)}
+onChange={(value) => handleChange("notes", value)}
             placeholder="Add any additional notes or terms..."
           />
 
