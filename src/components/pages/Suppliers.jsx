@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/atoms/Card";
-import { Badge } from "@/components/atoms/Badge";
+import Badge from "@/components/atoms/Badge";
 import { supplierService } from "@/services/api/supplierService";
 import { productService } from "@/services/api/productService";
 import ApperIcon from "@/components/ApperIcon";
